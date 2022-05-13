@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//13.
-namespace NetCore.Utilites.Utils
+namespace NetCore.Utilities.Utils
 {
     public class Enums
     {
@@ -18,7 +17,7 @@ namespace NetCore.Utilites.Utils
             Unmanaged = 1,
 
             //관리되는 방식
-            Managed =2,
+            Managed = 2,
 
             //Cng알고리즘 인데 Cbc모드의 인증을 사용   
             CngCbc = 3,

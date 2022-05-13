@@ -10,11 +10,9 @@ using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.Extensions.DependencyInjection;
 
-//13.
-namespace NetCore.Utilites.Utils
+namespace NetCore.Utilities.Utils
 {
-    public static class Common
-
+    public class Common
     {
         /// <summary>
         /// Data Protection 지정하기
@@ -69,8 +67,7 @@ namespace NetCore.Utilites.Utils
                     //CBC-mode
                     //Cipher Bolck Chaining
                     builder.UseCustomCryptographicAlgorithms(
-                        new CngCbcAuthenticatedEncryptorConfiguration() 
-                        {
+                        new CngCbcAuthenticatedEncryptorConfiguration() {
                             // Passed to BCryptOpenAlgorithmProvider
                             EncryptionAlgorithm = "AES",
                             EncryptionAlgorithmProvider = null,
@@ -89,8 +86,7 @@ namespace NetCore.Utilites.Utils
                     //Galois/Counter Mode
                     //GCM
                     builder.UseCustomCryptographicAlgorithms(
-                        new CngGcmAuthenticatedEncryptorConfiguration() 
-                        {
+                        new CngGcmAuthenticatedEncryptorConfiguration() {
                             // Passed to BCryptOpenAlgorithmProvider
                             EncryptionAlgorithm = "AES",
                             EncryptionAlgorithmProvider = null,

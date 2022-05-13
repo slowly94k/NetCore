@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using NetCore.Data.ViewModels;
@@ -21,6 +22,15 @@ namespace NetCore.Web.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "GeneralUser, SuperUser, SystemUser")]
+        /*
+            15.
+            AssociateUser의 권한만 가지고 있는 준사용자는 여기로 들어 올 수 없다.
+            AES()메서드로 들어왔을 때 팅겨내는 페이지 필요
+            그래서 Startup.cs > ConfigureServices() 메서드 > AddAuthentication()에서  .AddCookie 기능을 더해서 
+            options.AccessDeniedPath 권한이 없어서 가는 페이지를
+            "/Membership/Forbidden";  Membership의 밑에 Forbidden으로 페이지 지정 
+         */
         public IActionResult AES()
         {
             return View();
@@ -30,6 +40,7 @@ namespace NetCore.Web.Controllers
         //AES 암호 생성하기 버튼을 누르면 "return View()"여기서 암복호화 값을 넣어 줄거다.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "GeneralUser, SuperUser, SystemUser")]
         public IActionResult AES(AESInfo aes)
         {
             string message = string.Empty;

@@ -10,7 +10,7 @@ using Microsoft.Extensions.Hosting;
 using NetCore.Services.Data;
 using NetCore.Services.Interfaces;
 using NetCore.Services.Svcs;
-using NetCore.Utilites.Utils;
+using NetCore.Utilities.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,12 +32,16 @@ namespace NetCore.Web
         public void ConfigureServices(IServiceCollection services)
         {
             //13. Common.cs에 있는 "Data Protection 지정하기"를 호출해서 입력함
+            
             Common.SetDataProtection(services, @"C:\hwfile\vs2019\abcd\NetCore\DataProtector\", "NetCore", Enums.CryptoType.CngCbc);
             
             //의존성 주입을 사용하기 위해서 서비스로 등록    (4. 의존성)
             //껍데기            내용물
             //IUser 인터페이스에 UserService 클래스 인스턴스 주입
             services.AddScoped<IUser, UserService>();
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
+
+            services.AddHttpContextAccessor();
 
             //DB접속정보, Migrations 프로젝트 지정 (7. code first)
             //services.AddDbContext<CodeFirstDbContext>(options =>
@@ -53,6 +57,7 @@ namespace NetCore.Web
             // .Net Core 2.1의 AddMvc()에서 다음과 같이 메서드명이 변경됨. 
             services.AddControllersWithViews();
 
+            
             //신원보증과 승인권한 (14. ) => 다음 시간에 만들 예정
             services.AddAuthentication(defaultScheme: CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
@@ -64,7 +69,7 @@ namespace NetCore.Web
                     });
 
             services.AddAuthorization();
-
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

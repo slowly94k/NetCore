@@ -13,7 +13,12 @@ namespace NetCore.Data.Classes
         public string UserId { get; set; }
         public string UserName { get; set; }
         public string UserEmail { get; set; }
-        public string Password { get; set; }
+        //Password => GUIDSalt변경 16.
+        public string GUIDSalt { get; set; }
+        //16.
+        public string RNGSalt { get; set; }
+        //16.
+        public string PasswordHash { get; set; }
         //멤버변수 하나 추가 (12. )
         public int AccessFailedCount { get; set; }
         public bool IsMembershipWithdrawn { get; set; }

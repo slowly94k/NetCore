@@ -3,27 +3,31 @@
     ViewData["Title"] = "멤버십";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    string userName = string.Empty;
-    string[] userRoleInfo = new[] { string.Empty, string.Empty, string.Empty };
+    //수정 (15.
+    string userId = string.Empty;
+    string userRoleId = string.Empty;
+    string[] userDataInfos = new[] { string.Empty, string.Empty, string.Empty, string.Empty };
 
     if (Context.User.Claims.Any())
     {
-        userName = User.FindFirst(claim => claim.Type.Equals(ClaimTypes.Name)).Value; 
+        userId = User.FindFirst(claim => claim.Type.Equals(ClaimTypes.Name)).Value;
         @*
          MembershipController에서 "|"(파이프)로 구분이 되서 3개의 데이터를 가지고 있기 때문에
          string[] userRoleInfo 배열로 만들어 놓았다.
         *@
-        userRoleInfo = User.FindFirst(claim => claim.Type.Equals(ClaimTypes.UserData)).Value.Split("|");
-     } 
+        userRoleId = User.FindFirst(claim => claim.Type.Equals(ClaimTypes.Role)).Value;
+        userDataInfos = User.FindFirst(claim => claim.Type.Equals(ClaimTypes.UserData)).Value.Split("|");
+}
+
 }
 
 
-<h2>@ViewData["Title"]</h2>
+<h2>@ViewData["Title"]</h2> 
 
 <div class="text-info">@Html.Raw(TempData["Message"])</div>
 
 @if (Context.User.Identity.IsAuthenticated)
 {
-    <div class="text-danger">@($"{userName}님의 권한은 {userRoleInfo[0]}({userRoleInfo[1]})입니다.")</div>
-    <a asp-controller="Membership" asp-action="LogOutAsync" class="btn btn-primary">멤버십 로그아웃</a>
+    <div class="text-danger">@($"{userId}({userDataInfos[2]})님의 권한은 {userRoleId}({userDataInfos[0]})입니다.")</div>
+    <a asp-controller="Membership" asp-action="LogOut" class="btn btn-primary">멤버십 로그아웃</a>
 }
